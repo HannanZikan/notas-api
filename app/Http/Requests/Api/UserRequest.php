@@ -16,14 +16,14 @@ class UserRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'email' => [
+            'email'    => [
                 'required',
+                'unique:users,email',
                 'email',
                 'max:255',
             ],
@@ -31,8 +31,9 @@ class UserRequest extends FormRequest
                 'required',
                 'max:255',
             ],
-            'name' => [
+            'name'     => [
                 'required',
+                'string',
                 'max:255',
             ],
         ];
