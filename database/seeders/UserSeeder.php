@@ -5,16 +5,17 @@ namespace Database\Seeders;
 use App\Models\Invoice;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
-class InvoiceSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Invoice::factory()
-               ->count(20)
-               ->create();
+        User::factory()
+            ->count(10)
+            ->create();
     }
 }
