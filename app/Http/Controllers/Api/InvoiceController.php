@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreInvoiceRequest;
 use App\Http\Requests\Api\UpdateInvoiceRequest;
+use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
+use App\Policies\Api\InvoicePolicy;
 use App\Services\CnpjService;
 use Exception;
 
@@ -14,15 +16,13 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::query()
+                           ->with('user')
                            ->where(
                                'user_id', auth()->id()
                            )
-                           ->get()
-                           ->toArray();
+                           ->get();
 
-        return response()->json([
-                                    'invoices' => $invoices,
-                                ], 200);
+        return InvoiceResource::collection($invoices);
     }
 
     public function store(StoreInvoiceRequest $request)
@@ -50,18 +50,14 @@ class InvoiceController extends Controller
                                     ], $e->getCode());
         }
 
-        return response()->json([
-                                    'invoice' => $newInvoice,
-                                ], 200);
+        return new InvoiceResource($newInvoice);
     }
 
     public function show(Invoice $invoice)
     {
         $this->authorize('view', $invoice);
 
-        return response()->json([
-                                    'invoice' => $invoice,
-                                ]);
+        return new InvoiceResource($invoice->load('user'));
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
@@ -98,9 +94,7 @@ class InvoiceController extends Controller
                                     ], $e->getCode());
         }
 
-        return response()->json([
-                                    'invoice' => $invoice,
-                                ], 200);
+        return new InvoiceResource($invoice);
     }
 
     public function destroy(Invoice $invoice)
