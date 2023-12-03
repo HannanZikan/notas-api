@@ -41,10 +41,10 @@ class InvoiceController extends Controller
                                               'order_number' => $data['order_number'],
                                               'amount'       => $data['amount'],
                                               'issue_date'   => $data['issue_date'],
-                                              'sender_cnpj'  => $data['sender_cnpj'],
+                                              'sender_cnpj'  => str_replace(['.', '/', '-'], '', $data['sender_cnpj']),
                                               'sender_name'  => $data['sender_name'],
-                                              'carrier_cnpj' => $data['carrier_cnpj'],
-                                              'carrier_name' => $data['carrier_name'],
+                                              'carrier_cnpj' => str_replace(['.', '/', '-'], '',$data['carrier_cnpj']),
+                                              'carrier_name' =>  $data['carrier_name'],
                                           ]);
         } catch (Exception $e) {
             dd($e->getMessage());
@@ -66,7 +66,8 @@ class InvoiceController extends Controller
 
     public function sendNotification(Invoice $invoice)
     {
-
+        Notification::route('mail', $invoice->user->email)
+                    ->notify(new InvoiceCreated($invoice));
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
@@ -92,9 +93,9 @@ class InvoiceController extends Controller
                                  'order_number' => $data['order_number'] ?? $invoice->order_number,
                                  'amount'       => $data['amount'] ?? $invoice->amount,
                                  'issue_date'   => $data['issue_date'] ?? $invoice->issue_date,
-                                 'sender_cnpj'  => $data['sender_cnpj'] ?? $invoice->sender_cnpj,
+                                 'sender_cnpj'  => str_replace(['.', '/', '-'], '', $data['sender_cnpj']) ?? $invoice->sender_cnpj,
                                  'sender_name'  => $data['sender_name'] ?? $invoice->sender_name,
-                                 'carrier_cnpj' => $data['carrier_cnpj'] ?? $invoice->carrier_cnpj,
+                                 'carrier_cnpj' => str_replace(['.', '/', '-'], '', $data['carrier_cnpj']) ?? $invoice->carrier_cnpj,
                                  'carrier_name' => $data['carrier_name'] ?? $invoice->carrier_name,
                              ]);
         } catch (Exception $e) {

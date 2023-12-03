@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Alvarofpp\Masks\Traits\MaskAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    use HasFactory;
+    use HasFactory, MaskAttributes;
 
     protected $fillable = [
         'id',
@@ -22,6 +23,12 @@ class Invoice extends Model
     ];
     protected $date = [
         'issue_date',
+    ];
+
+    protected $maskSuffix = '_formatted';
+    protected $masks = [
+        'sender_cnpj' => '##.###.###/####-##',
+        'carrier_cnpj' => '##.###.###/####-##',
     ];
 
     public function user()

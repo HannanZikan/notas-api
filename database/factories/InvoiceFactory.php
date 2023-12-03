@@ -24,9 +24,9 @@ class InvoiceFactory extends Factory
             'order_number' => $this->faker->unique()->numerify('#########'),
             'amount'       => $this->faker->randomFloat(2, 10, 1000),
             'issue_date'   => $this->faker->date,
-            'sender_cnpj'  => $this->faker->numerify('########0001'),
+            'sender_cnpj'  => $this->faker->numerify('########0001-01'),
             'sender_name'  => $this->faker->company,
-            'carrier_cnpj' => $this->faker->numerify('########0001'),
+            'carrier_cnpj' => $this->faker->numerify('########0001-01'),
             'carrier_name' => $this->faker->company,
 
         ];
