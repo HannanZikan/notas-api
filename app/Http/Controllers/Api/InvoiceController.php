@@ -13,7 +13,12 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::query()
+                           ->where(
+                               'user_id', auth()->id()
+                           )
+                           ->get()
+                           ->toArray();
 
         return response()->json([
                                     'invoices' => $invoices,
@@ -22,7 +27,6 @@ class InvoiceController extends Controller
 
     public function store(StoreInvoiceRequest $request)
     {
-
         $data = $request->validated();
         if (!CnpjService::validateCnpj($data['sender_cnpj']) && !CnpjService::validateCnpj($data['carrier_cnpj'])) {
             return response()->json([
@@ -31,6 +35,7 @@ class InvoiceController extends Controller
         }
         try {
             $newInvoice = Invoice::create([
+                                              'user_id'      => auth()->id(),
                                               'order_number' => $data['order_number'],
                                               'amount'       => $data['amount'],
                                               'issue_date'   => $data['issue_date'],
@@ -52,6 +57,8 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice)
     {
+        $this->authorize('view', $invoice);
+
         return response()->json([
                                     'invoice' => $invoice,
                                 ]);
@@ -59,6 +66,7 @@ class InvoiceController extends Controller
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
+        $this->authorize('update', $invoice);
         $data = $request->validated();
         if (!CnpjService::validateCnpj($data['sender_cnpj']) && !CnpjService::validateCnpj($data['carrier_cnpj'])) {
             return response()->json([
@@ -88,6 +96,7 @@ class InvoiceController extends Controller
 
     public function destroy(Invoice $invoice)
     {
+        $this->authorize('delete', $invoice);
         try {
             $invoice->delete();
         } catch (Exception $e) {
