@@ -20,6 +20,9 @@ class Invoice extends Model
         'carrier_cnpj',
         'carrier_name',
     ];
+    protected $date = [
+        'issue_date',
+    ];
 
     public function user()
     {

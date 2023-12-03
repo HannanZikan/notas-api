@@ -10,6 +10,8 @@ use App\Models\Invoice;
 use App\Policies\Api\InvoicePolicy;
 use App\Services\CnpjService;
 use Exception;
+use App\Notifications\InvoiceCreated;
+use Illuminate\Support\Facades\Notification;
 
 class InvoiceController extends Controller
 {
@@ -45,6 +47,8 @@ class InvoiceController extends Controller
                                               'carrier_name' => $data['carrier_name'],
                                           ]);
         } catch (Exception $e) {
+            dd($e->getMessage());
+
             return response()->json([
                                         'message' => $e->getMessage(),
                                     ], $e->getCode());
@@ -58,6 +62,11 @@ class InvoiceController extends Controller
         $this->authorize('view', $invoice);
 
         return new InvoiceResource($invoice->load('user'));
+    }
+
+    public function sendNotification(Invoice $invoice)
+    {
+
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
