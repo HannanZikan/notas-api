@@ -68,10 +68,19 @@ class InvoiceController extends Controller
     {
         $this->authorize('update', $invoice);
         $data = $request->validated();
-        if (!CnpjService::validateCnpj($data['sender_cnpj']) && !CnpjService::validateCnpj($data['carrier_cnpj'])) {
-            return response()->json([
-                                        'message' => 'Cnpj inválido!',
-                                    ]);
+        if (isset($data['sender_cnpj'])) {
+            if (!CnpjService::validateCnpj($data['sender_cnpj'])) {
+                return response()->json([
+                                            'message' => 'Cnpj inválido!',
+                                        ]);
+            }
+        }
+        if (isset($data['carrier_cnpj'])) {
+            if (!CnpjService::validateCnpj($data['carrier_cnpj'])) {
+                return response()->json([
+                                            'message' => 'Cnpj inválido!',
+                                        ]);
+            }
         }
         try {
             $invoice->update([
