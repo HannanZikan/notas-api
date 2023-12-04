@@ -12,6 +12,8 @@ Certifique-se também se estar com as chaves ssh e conta github configuradas.
 Clone o repositório em um diretório de sua escolha na distribuição linux: <br>
 `` git@github.com:HannanZikan/notas-api.git ``
 
+Copie o arquivo ``.env.example`` e cole com o nome ``.env`` para criar as variáveis de ambiente.
+
 Execute as imagens do Docker: <br>
 `` ./vendor/bin/sail up -d ``
 
@@ -22,6 +24,15 @@ Execute o comando `` composer install `` para instalar todas as dependências do
 
 Execute o comando ``php artisan maigrate --seed`` para executar as migrations e criar as tabelas do banco de dados e popular o banco com dados de exemplo.
 
+Para testar o envio de e-mail, utilize a ferramenta https://mailtrap.io/. Na aba Email Testing, acesse Inboxes e acesse a inbox já criada.<br>
+Na aba MYInbox, selecione a aba SMTP Settings e em Integrations, selecione Laravel 9+ e copie os valores informados.
+Exemplo:
+MAIL_MAILER=smtp<br>
+MAIL_HOST=sandbox.smtp.mailtrap.io<br>
+MAIL_PORT=2525<br>
+MAIL_USERNAME=************** <br>
+MAIL_PASSWORD=************** <br>
+
 Agora o projeto está instalado e rodando em sua máquina!
 
 ## Rotas API
@@ -31,36 +42,13 @@ Neste ecopo, existe uma variável global que é utilizada em todas as rotas que 
 
 ## Login
 
+Por padrão, ao executar as migrations será gerado o usuário Azapfy, que pode ser utilizado para testar as rotas sem a necessidade de criar um novo. Mas também pode ser criado um novo usuário pela rota /signup.
+Dados desse usuário:
+    - e-mail: azapfy@emai.com
+    - senha: password
 
+São gerados mais 10 usuários, possuindo notas fiscais aleatoriamente. Todos são gerados através de Factories, então é necessário verificar o email fake atribuído. Porém todos são gerados com a senha password.
 
-### Premium Partners
+## Meu contato
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Qualquer dúvida ou feedback fique a vontade para entrar em contato comigo, através do e-mail hannanczikan@gmail.com ou no whatsapp informado no cadastro da candidatura.
