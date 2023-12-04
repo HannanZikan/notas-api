@@ -43,8 +43,8 @@ Neste ecopo, existe uma variável global que é utilizada em todas as rotas que 
 ## Login
 
 Por padrão, ao executar as migrations será gerado o usuário Azapfy, que pode ser utilizado para testar as rotas sem a necessidade de criar um novo. Mas também pode ser criado um novo usuário pela rota /signup.
-Dados desse usuário:
-    - e-mail: azapfy@emai.com
+Dados desse usuário: <br>
+    - e-mail: azapfy@emai.com <br>
     - senha: password
 
 São gerados mais 10 usuários, possuindo notas fiscais aleatoriamente. Todos são gerados através de Factories, então é necessário verificar o email fake atribuído. Porém todos são gerados com a senha password.
