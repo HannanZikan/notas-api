@@ -10,7 +10,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::resource('/invoices', InvoiceController::class);
 });
-Route::post('/invoices/{invoice}/sendNotification', [InvoiceController::class, 'sendNotification']);
 
 Route::post('/signup', [UserController::class, 'store']);
 Route::post('/login', [AuthController::class, 'auth']);

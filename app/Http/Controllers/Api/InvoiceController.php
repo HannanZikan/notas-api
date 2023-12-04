@@ -43,8 +43,8 @@ class InvoiceController extends Controller
                                               'issue_date'   => $data['issue_date'],
                                               'sender_cnpj'  => str_replace(['.', '/', '-'], '', $data['sender_cnpj']),
                                               'sender_name'  => $data['sender_name'],
-                                              'carrier_cnpj' => str_replace(['.', '/', '-'], '',$data['carrier_cnpj']),
-                                              'carrier_name' =>  $data['carrier_name'],
+                                              'carrier_cnpj' => str_replace(['.', '/', '-'], '', $data['carrier_cnpj']),
+                                              'carrier_name' => $data['carrier_name'],
                                           ]);
         } catch (Exception $e) {
             dd($e->getMessage());
@@ -62,12 +62,6 @@ class InvoiceController extends Controller
         $this->authorize('view', $invoice);
 
         return new InvoiceResource($invoice->load('user'));
-    }
-
-    public function sendNotification(Invoice $invoice)
-    {
-        Notification::route('mail', $invoice->user->email)
-                    ->notify(new InvoiceCreated($invoice));
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
