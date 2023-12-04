@@ -30,10 +30,6 @@ class AuthRequest extends FormRequest
                 'required',
                 'max:255',
             ],
-            'device_name' => [
-                'required',
-                'max:255',
-            ],
         ];
     }
 }
